@@ -1,16 +1,22 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+from src.request.hh import RequestHH
+from src.request.sj import RequestsSJ
+from src.vacancy import VacancyHH, VacancySJ
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+def dialog():
+    """Функция помогает пользователю выбрать искомый сайт и профессию"""
+    print('Нажмите 1 для поиска по сайту SJ, нажмите 2 для поиска на HH')
+    site = int(input())
+    print('Введите ключевое слово для поиска: ')
+    key_word = input()
+    if site == 1:
+        a = RequestsSJ(key_word)
+        a.request()
+        VacancySJ.get_data()
+    elif site == 2:
+        b = RequestHH(key_word)
+        b.request()
+        VacancyHH.get_data()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+dialog()
