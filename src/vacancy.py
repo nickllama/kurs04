@@ -1,7 +1,9 @@
 import json
 from abc import ABC, abstractmethod
+from src.mixin_comparison_vacancy import ComparisonVacancy
 
 from config import JSON_HH
+from src.verification import SalaryVerify
 
 
 class Vacancy(ABC):
@@ -13,10 +15,10 @@ class Vacancy(ABC):
         pass
 
 
-class VacancyHH(Vacancy):
+class VacancyHH(Vacancy, ComparisonVacancy, SalaryVerify):
     """Класс для вакансий с сайта HH"""
 
-    def __init__(self, title: str, link: str, description: str, salary: dict) -> None:
+    def __init__(self, title: str, link: str, description: str, salary: int) -> None:
         self.title = title
         self.link = link
         self.description = description
@@ -27,7 +29,7 @@ class VacancyHH(Vacancy):
             f"Вакансии: {self.title} \n"
             f"Сайт: {self.link} \n"
             f"Описание: {self.description} \n"
-            f"Зарплата: {self.salary['from'] if self.salary and self.salary['from'] else '-'}"
+            f"Зарплата: {self.salary} \n\n"
         )
 
     @classmethod
@@ -44,11 +46,12 @@ class VacancyHH(Vacancy):
                         i["salary"],
                     )
                 )
+        vacancy_s = sorted(vacancy_s, key=lambda x: x.salary, reverse=True)
         for vacancy in vacancy_s:
             print(vacancy)
 
 
-class VacancySJ(Vacancy):
+class VacancySJ(Vacancy, ComparisonVacancy, SalaryVerify):
     """Класс вакансий с сайта SuperJob"""
 
     def __init__(self, title: str, link: str, description: str, salary: str):
@@ -62,7 +65,7 @@ class VacancySJ(Vacancy):
             f"Вакансии: {self.title} \n"
             f"Сайт: {self.link} \n"
             f"Описание: {self.description} \n"
-            f"Зарплата: {self.salary}"
+            f"Зарплата: {self.salary} \n\n"
         )
 
     @classmethod
@@ -79,5 +82,6 @@ class VacancySJ(Vacancy):
                         i["payment_from"],
                     )
                 )
+        vacancy_s = sorted(vacancy_s, key=lambda x: x.salary, reverse=True)
         for vacancy in vacancy_s:
             print(vacancy)
