@@ -3,12 +3,17 @@ from src.request.sj import RequestsSJ
 from src.vacancy import VacancyHH, VacancySJ
 
 
+
+
 def dialog():
+
     """Функция помогает пользователю выбрать искомый сайт и профессию"""
     print('Нажмите 1 для поиска по сайту SJ, нажмите 2 для поиска на HH')
     site = int(input())
     print('Введите ключевое слово для поиска: ')
     key_word = input()
+    print('Вывод результата будет по убыванию ЗП \n \n')
+
     if site == 1:
         a = RequestsSJ(key_word)
         a.request()
@@ -17,6 +22,9 @@ def dialog():
         b = RequestHH(key_word)
         b.request()
         VacancyHH.get_data()
+
+
+
 
 
 dialog()
